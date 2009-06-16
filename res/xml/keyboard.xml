@@ -1,0 +1,217 @@
+<Keyboard xmlns:momo="foo">
+<Row>
+<Key
+	key="q"
+	key_shift="A"
+	key_num="1"
+	key_sim="1"	
+/>
+<Key
+	key="w"
+	key_shift="B"
+	key_num="2"
+	key_sim="2"	
+/>
+<Key
+	key="e"
+	key_shift="A"
+	key_num="3"
+	key_sim="1"	
+/>
+<Key
+	key="r"
+	key_shift="A"
+	key_num="4"
+	key_sim="1"	
+/> 
+<Key
+	key="t"
+	key_shift="B"
+	key_num="5"
+	key_sim="2"	
+/>
+<Key
+	key="y"
+	key_shift="A"
+	key_num="6"
+	key_sim="1"	
+/>
+<Key
+	key="u"
+	key_shift="B"
+	key_num="7"
+	key_sim="2"	
+/>
+<Key
+	key="i"
+	key_shift="A"
+	key_num="8"
+	key_sim="1"	
+/>
+<Key
+	key="o"
+	key_shift="B"
+	key_num="9"
+	key_sim="2"	
+/>
+<Key
+	key="p"
+	key_shift="B"
+	key_num="0"
+	key_sim="2"	
+/>
+</Row>
+<Row>
+<Key
+	key="a"
+	key_shift="A"
+	key_num="\@"
+	key_sim="1"	
+/>
+<Key
+	key="s"
+	key_shift="B"
+	key_num="\#"
+	key_sim="2"	
+/>
+<Key
+	key="d"
+	key_shift="A"
+	key_num="$"
+	key_sim="1"	
+/>
+<Key
+	key="f"
+	key_shift="F"
+	key_num="%"
+	key_sim="1"	
+/>
+<Key
+	key="g"
+	key_shift="G"
+		key_num="_"
+	key_sim="2"	
+	/>
+<Key
+	key="h"
+	key_shift="H"
+	key_num="*"
+	key_sim="1"	
+/>
+<Key
+	key="j"
+	key_shift="J"
+	key_num="-"
+	key_sim="2"	
+/>
+<Key
+	key="k"
+	key_shift="K"
+	key_num="+"
+	key_sim="1"	
+/>
+<Key
+	key="l"
+	key_shift="L"
+	key_num="("
+	key_sim="2"	
+/>
+
+</Row>
+<Row>
+<Key
+	key="z"
+	key_shift="Z"
+	key_num="!"
+	key_sim="1"	
+/>
+<Key
+	key="x"
+	key_shift="X"
+	key_num="\"
+	key_sim="2"	
+/>
+<Key
+	key="c"
+	key_shift="C"
+	key_num="'"
+	key_sim="1"	
+/>
+<Key
+	key="v"
+	key_shift="V"
+	key_num=":"
+	key_sim="1"	
+/>
+<Key
+	key="b"
+	key_shift="B"
+	key_num=";"
+	key_sim="2"	
+/>
+<Key
+	key="n"
+	key_shift="N"
+	key_num="\/"
+	key_sim="1"	
+/>
+<Key
+	key="m"
+	key_shift="M"
+	key_num="\?"
+	key_sim="2"	
+/>
+<Key
+	key=","
+	key_shift="A"
+	key_num="1"
+	key_sim="1"	
+/>
+<Key
+	key="."
+	key_shift="B"
+	key_num="2"
+	key_sim="2"	
+/>
+
+</Row>
+<Row>
+<Key
+	key="SHIFT"
+	span="1.5"
+	key_shift="A"
+	key_num="1"
+	key_sim="1"	
+/>
+<Key
+	key="SYM"
+	span="1.5"
+	key_shift="B"
+	key_num="2"
+	key_sim="2"	
+/>
+<Key
+	key="SPACE"
+	span="5.0"
+	key_shift="A"
+	key_num="1"
+	key_sim="1"	
+/>
+<Key
+	key="NUM"
+	span="1.5"
+	
+	key_shift="A"
+	key_num="1"
+	key_sim="1"	
+/>
+<Key
+	key="RETURN"
+	span="1.5"
+	key_shift="B"
+	key_num="2"
+	key_sim="2"	
+/>
+
+</Row>
+</Keyboard>
