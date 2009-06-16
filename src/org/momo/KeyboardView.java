@@ -3,6 +3,7 @@ package org.momo;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -24,6 +25,9 @@ public class KeyboardView extends RelativeLayout  {
 	
 	public static final int SHIFT = 1;
 	public static final int NUM = 2;
+	public static final int SPACE = 3;
+	public static final int BACK = 4;
+	public static final int RETURN = 5;
 	
 	public static final int MAX_KEYS = 100;
 	
@@ -73,10 +77,12 @@ public class KeyboardView extends RelativeLayout  {
 	
 	// optimized
 	public void changeState(int state){
-		KeyboardButton[] localKeyboardButtons = mButtonMapping;
-		int limit = mappingIndex + 1;
+		int limit = mappingIndex;
 		for(int i=0;i<limit;i++){
-			localKeyboardButtons[i].updateState(state);
+			if(mButtonMapping[i]!=null)
+			mButtonMapping[i].updateState(state);
+			else
+			Logger.getLogger("SnapBoard").info("Found dead key, index is " + i);
 		}
 	}
 	
@@ -98,7 +104,7 @@ public class KeyboardView extends RelativeLayout  {
 	// iterator-fail TODO
 	private void updateButtons(float override){
 		KeyboardButton[] localKeyboardButtons = mButtonMapping;
-		int limit = mappingIndex + 1;
+		int limit = mappingIndex;
 		float weightToUse;
 		
 		// get rid of all the override stuff.
@@ -131,7 +137,7 @@ public class KeyboardView extends RelativeLayout  {
 		}
 		mChildOrder.clear();
 		KeyboardButton[] localKeyboardButtons = mButtonMapping;
-		int limit = mappingIndex + 1;
+		int limit = mappingIndex;
 		for(int i=0;i<limit;i++){
 			if ( mButtonMapping[i]!= null){
 			if (data.containsKey(mStringMapping[i])){

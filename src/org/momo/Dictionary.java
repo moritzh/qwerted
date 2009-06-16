@@ -56,7 +56,7 @@ public class Dictionary {
 	public HashMap<String, Float> returnByProbability(String snippet){
 		
 		String[] preProcessing = snippet.split(" ");
-		snippet = preProcessing[preProcessing.length-1];
+		snippet = preProcessing[preProcessing.length-1].toLowerCase();
 		
 		String candidate;
 		Iterator<String> i= words.keySet().iterator();

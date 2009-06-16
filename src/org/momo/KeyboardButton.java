@@ -2,6 +2,7 @@ package org.momo;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.PorterDuff.Mode;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +26,9 @@ public class KeyboardButton implements OnClickListener {
 	// define some special keys here. obviously needed. 
 	enum specialKeyTypes  {SPACE,SHIFT,NUM, BACKSPACE};
 	// and the instance to keep track of it.
-	private specialKeyTypes specialKey; 
+	private int specialKey; 
+	// for the toggle stuff
+	private boolean active = false;
 	
 	// the label.
 	private String key;
@@ -62,20 +65,38 @@ public class KeyboardButton implements OnClickListener {
 	
 	private void initLayout(){
 		if ( this.isSpecialKey ){
+			
 			ImageButton btn = new ImageButton(kv.getContext());
-			btn.setImageResource(R.drawable.sym_keyboard_delete);
+			switch(this.specialKey){
+			case KeyboardView.BACK:
+				btn.setImageResource(R.drawable.sym_keyboard_delete);
+				break;
+			case KeyboardView.SPACE:
+				btn.setImageResource(R.drawable.sym_keyboard_space);
+				break;				
+			case KeyboardView.NUM:
+				btn.setImageResource(R.drawable.sym_keyboard_delete);
+				break;			
+			case KeyboardView.SHIFT:
+				btn.setImageResource(R.drawable.sym_keyboard_shift);
+				break;				
+			case KeyboardView.RETURN:
+				btn.setImageResource(R.drawable.sym_keyboard_return);
+				break;	
+			}
 			btn.setScaleType(ImageView.ScaleType.CENTER);
 			this.mView = btn;
 		} else {
 			Button btn = new Button(kv.getContext());
 			btn.setText(key.toString());
 			btn.setTextColor(Color.WHITE);
-
+			
 			this.mView = btn;
 		}
-		mView.setPadding(0,0,0,0);
-		mView.setBackgroundResource(R.drawable.bg);
-		
+		//mView.setBackgroundResource(R.drawable.bg);
+		// just for now, doesn't change too much here.
+		mView.setBackgroundColor(Color.BLACK);
+		mView.setPadding(0, 0, 0, 0);
 		// are we special?
 		setBoundaries(Math.round((position.x-1.0f)*WIDTH+2.5f),Math.round((position.y-1.0f)*HEIGHT+2.5f),Math.round(WIDTH*span),HEIGHT);
 		this.mView.setVisibility(View.VISIBLE);
@@ -110,17 +131,18 @@ public class KeyboardButton implements OnClickListener {
 
 		this.isSpecialKey = true;
 		if ( this.key.compareTo("SPACE")==0){
-			this.specialKey = specialKeyTypes.SPACE;
+			this.specialKey = KeyboardView.SPACE;
 			this.sendKey = " ";
 			
 		} else if (this.key.compareTo("SHIFT")==0){
-			this.specialKey = specialKeyTypes.SHIFT;
+			this.specialKey = KeyboardView.SHIFT;
 			
 		}  else if (this.key.compareTo("NUM")==0){
-			this.specialKey = specialKeyTypes.NUM;
+			this.specialKey = KeyboardView.NUM;
+			
 			
 		}  else if (this.key.compareTo("RETURN")==0){
-			this.specialKey = specialKeyTypes.BACKSPACE;
+			this.specialKey = KeyboardView.BACK;
 			this.sendKey = Character.toString((char)KeyEvent.KEYCODE_BACK);
 			
 		} else {
@@ -144,14 +166,21 @@ public class KeyboardButton implements OnClickListener {
 			((Button)this.mView).setTextSize(newWidth - 15);
 			// update my Layout.
 			setBoundaries(newLeftMargin,newTopMargin,newWidth,newHeight);
+			this.mView.forceLayout();
+
 		}
 	}
 	
 	// just delegate.
 	public void onClick(View v) {
 		if ( this.isSpecialKey ){
-			if ( this.specialKey == KeyboardButton.specialKeyTypes.SHIFT )
-				kv.changeState(KeyboardView.SHIFT);
+			if ( this.specialKey == KeyboardView.SHIFT )
+				 if (this.active==true) {
+					 kv.changeState(0);
+					 ((ImageButton)this.mView).setAlpha(255);
+					 ((ImageButton)this.mView).setColorFilter(Color.GREEN,Mode.DST_ATOP);
+				 } else
+					 kv.changeState(KeyboardView.SHIFT);
 			else
 				kv.onClickDelegate(this.sendKey);
 		} else {
@@ -165,8 +194,7 @@ public class KeyboardButton implements OnClickListener {
 		if ( state == 0 ){
 			((Button)this.mView).setText(this.key);
 			
-		} else if ( (state&(KeyboardView.SHIFT|KeyboardView.NUM)) == KeyboardView.SHIFT){
-			((Button)this.mView).setText(this.symbolKey);
+		
 		} else if (state == KeyboardView.SHIFT){
 			String temp = this.shiftKey;
 			this.shiftKey = this.key;

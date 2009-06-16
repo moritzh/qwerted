@@ -2,61 +2,61 @@
 <Row>
 <Key
 	key="q"
-	key_shift="A"
+	key_shift="Q"
 	key_num="1"
 	key_sim="1"	
 />
 <Key
 	key="w"
-	key_shift="B"
+	key_shift="W"
 	key_num="2"
 	key_sim="2"	
 />
 <Key
 	key="e"
-	key_shift="A"
+	key_shift="E"
 	key_num="3"
 	key_sim="1"	
 />
 <Key
 	key="r"
-	key_shift="A"
+	key_shift="R"
 	key_num="4"
 	key_sim="1"	
 /> 
 <Key
 	key="t"
-	key_shift="B"
+	key_shift="T"
 	key_num="5"
 	key_sim="2"	
 />
 <Key
 	key="y"
-	key_shift="A"
+	key_shift="Y"
 	key_num="6"
 	key_sim="1"	
 />
 <Key
 	key="u"
-	key_shift="B"
+	key_shift="U"
 	key_num="7"
 	key_sim="2"	
 />
 <Key
 	key="i"
-	key_shift="A"
+	key_shift="I"
 	key_num="8"
 	key_sim="1"	
 />
 <Key
 	key="o"
-	key_shift="B"
+	key_shift="O"
 	key_num="9"
 	key_sim="2"	
 />
 <Key
 	key="p"
-	key_shift="B"
+	key_shift="P"
 	key_num="0"
 	key_sim="2"	
 />
@@ -70,13 +70,13 @@
 />
 <Key
 	key="s"
-	key_shift="B"
+	key_shift="S"
 	key_num="\#"
 	key_sim="2"	
 />
 <Key
 	key="d"
-	key_shift="A"
+	key_shift="D"
 	key_num="$"
 	key_sim="1"	
 />
