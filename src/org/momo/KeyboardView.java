@@ -180,6 +180,14 @@ public class KeyboardView extends LinearLayout implements SurfaceHolder.Callback
 		return true;
 	}
 
+	protected void onDraw(Canvas c){
+		drawButtons();
+	}
+	
+	protected void onSizeChanged (int w, int h, int oldw, int oldh){
+		KeyboardButton.onUpdateCanvasSize(w, h);
+	}
+	
 	private KeyboardButton findButtonForPoint(int x,int y){
 		if (lastHitButton != null && lastHitButton.currentHitRectangle().contains(x, y))
 			return lastHitButton;

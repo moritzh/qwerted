@@ -1,7 +1,13 @@
-<preferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<checkBoxPreference
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android" android:title="foo" android:key="bar">
+	<CheckBoxPreference
 		android:key="@string/checkbox"
-		android:title="Checkbox Preference"
-		android:summary="Check it on, check it off" />
-</preferenceScreen>
+		android:title="Enable Prediction"
+		android:summary="You could have saved 2.99$ if you turn this off." />
+		<CheckBoxPreference android:key="vibrate" android:title="Vibrate on Key" android:summary="Makes your device vibrate every time you touch a button" />
+		<PreferenceCategory android:name="Layout Settings" android:summary="Change the layout of the keyboard">
+		<CheckBoxPreference android:key="rounded_rect" android:title="Rounded Buttons" android:summary="Instead of having edgy buttons, this option allows you to have slightly rounded buttons on your keyboard" />
+		<CheckBoxPreference android:key="border_rect" android:title="Button Borders" android:summary="Whether to draw a border around each button" />
+		<EditTextPreference android:key="key_gap" android:title="Inter-Button Gap" android:summary="Specifies the Gap between two buttons" />
+		</PreferenceCategory>
+</PreferenceScreen>

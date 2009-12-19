@@ -1,22 +1,15 @@
 package org.momo;
 
-import java.util.Vector;
+import org.momo.util.DisplaySet;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.NinePatch;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
-import android.util.Log;
-import org.momo.util.*;
 
 /**
  * basically, the button is some kind of information-holding entity. it is
@@ -41,8 +34,8 @@ public class KeyboardButton {
 	public static final short DIAG = 1;
 	public static final short STRAIGHT = 2;
 
+	// if this is set to true, any negotiation may not modify this buttons below value.
 	public boolean dontModifyBelow = false;
-	public boolean dontModifyRight = false;
 
 	public static short state = Keyboard.NORMAL;
 
@@ -61,6 +54,8 @@ public class KeyboardButton {
 	public KeyboardButton buttonRelDiagBelow;
 	public KeyboardButton buttonRelRight;
 
+	// the type of relation this button has to negotiate. is set in keyboard.java
+	// and used here.
 	public short relType;
 
 	// the maximums of rows and columns, needed to calculate button width and
@@ -76,20 +71,20 @@ public class KeyboardButton {
 	// where the actual information about what is displayed etc is stored.
 	// see the displayset below for how it works.
 	public DisplaySet numSet, symSet, shiftSet, normSet;
-	public static NinePatch mBackgroundDrbl;
+	public static NinePatchDrawable mBackgroundDrbl;
 	// wether this button is displayed highlighted.
 	public boolean highlight = false;
 	// the current drawable rectangle. this is, of course, also the
-	// hit-rectangle.
-	private Rect mRect;
-	// the base-rectangle. the
-	private Rect baseRect;
+
 	// the rectangle used to store the negotiation results.
 	private RectF negotiationRect = new RectF(0.5f, 0.5f, 0.5f, 0.5f);
+	
 	// the screen width and height.
+	// maybe those should be taken to keyboardview.
 	private static int screenX;
 	private static int screenY;
 
+	// will be populated later.
 	private static int baseButtonHeight = 0;
 	private static int baseButtonWidth = 0;
 
@@ -348,6 +343,8 @@ public class KeyboardButton {
 	public static void onUpdateCanvasSize(int x, int y) {
 		KeyboardButton.screenX = x;
 		KeyboardButton.screenY = y;
+		KeyboardButton.baseButtonHeight = 0;
+		KeyboardButton.baseButtonWidth = 0;
 	}
 
 	/**
@@ -451,47 +448,22 @@ public class KeyboardButton {
 			// now. a bit expensive, but necessary.
 			float wRight = this.negotiate(this,this.buttonRelRight);
 			float wBelow = this.negotiate(this,this.buttonRelStraightBelow);	
-			float wDiagLeft = this.negotiate(this,this.buttonRelDiagBelow);
-			float wDiagTop = wDiagLeft;
-			// only perform _anything_ if one of the buttons is really "unstandard"
-			float wDownMax = 0.5f;
-			float wRightMax = 0.5f;
-			float wBelowRightGrowth = 0.5f;
-			if ( wDiagTop != 0.5f || wBelow != 0.5f || wRight != 0.5f){
-				// determine the limiting factor for the downside growth.
-				// we grow down as much as allowed
-				wDownMax = ( wDiagTop > wBelow ? wDiagTop : wBelow);
-				// we also grow right as much as possible
-				wRightMax = ( wDiagTop > wRight ? wDiagTop : wRight );
-				// we have to check that we don't grow down further as we already are. 
-				// to not interfer with the 'other' instance.
-				wDownMax = ( wDiagTop > this.negotiationRect.bottom ? this.negotiationRect.bottom : wDiagTop);
-				// now we set everything accordingly.
-				
-				
-				wBelowRightGrowth = this.negotiate(this.buttonRelStraightBelow,this.buttonRelDiagBelow);
-
-					
-				// ... same for the right growth.
+			float wDiagRight = this.negotiate(this,this.buttonRelDiagBelow);
+			float wDiagTop = wDiagRight;
 			
-			} 	
-
-				if ( this.buttonRelStraightBelow != null){
-					this.buttonRelStraightBelow.negotiationRect.right = wBelowRightGrowth;					this.buttonRelStraightBelow.negotiationRect.top = 0.5f;
-					this.buttonRelStraightBelow.negotiationRect.top = 1.0f - wDownMax;
-
-				}
-				if ( this.buttonRelDiagBelow != null){
-					this.buttonRelDiagBelow.negotiationRect.left = 1.0f-wBelowRightGrowth;
-					this.buttonRelDiagBelow.negotiationRect.top = 1.0f - wDownMax;
-				}
-				if ( this.buttonRelRight != null){
-					this.buttonRelRight.negotiationRect.left = 1.0f-wRightMax;
-					this.buttonRelRight.negotiationRect.bottom = wDownMax;
-				}
-				
-				this.negotiationRect.right = wRightMax;
-				this.negotiationRect.bottom = wDownMax;
+			// we can grow right the lower value 
+			float wGrowRight = ( wDiagRight >wRight ? wRight : wDiagRight);
+			// only perform _anything_ if one of the buttons is really "unstandard"
+			this.negotiationRect.right = wGrowRight;
+			this.negotiationRect.bottom = wBelow;
+			
+			if ( this.buttonRelStraightBelow != null){
+				this.buttonRelStraightBelow.negotiationRect.top = 1.0f - wBelow;
+			}
+			
+			if ( this.buttonRelRight != null){
+				this.buttonRelRight.negotiationRect.left = 1.0f - wGrowRight;
+			}
 		}
 
 		// mark dirty

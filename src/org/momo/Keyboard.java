@@ -52,6 +52,10 @@ public class Keyboard {
 	private DictionaryItem mDictionaryItem;
 	private String word;
 	
+	// to give the back button some use
+	private int mAdvanceLastPrediction;
+	private DictionaryItem mLastPrediction;
+	
 	public Vector<KeyboardButton> mButtons;
 
 	
@@ -198,8 +202,7 @@ public class Keyboard {
 
 		}
 		// wnat to test toasts
-		Toast t = Toast.makeText(this.mContext, "We added" + this.mButtons.size(), 1000);
-		t.show();
+	
 	}
 	
 	/**
@@ -213,6 +216,19 @@ public class Keyboard {
 				case(01):
 					if (mInputMethodService.getCurrentInputStarted())
 						mInputMethodService.getCurrentInputConnection().deleteSurroundingText(1, 0);
+					
+					if (mAdvanceLastPrediction==1 && mLastPrediction != null){
+						mAdvanceLastPrediction = -1;
+						mDictionaryItem = mLastPrediction;
+						updatePredictions();
+					} else if (mDictionaryItem !=null ){
+						if ( mDictionaryItem.getParent() != null )
+							mDictionaryItem = mDictionaryItem.getParent();
+						else
+							this.bunchUpdateAllButtons(0.5f);
+						updatePredictions();
+					}
+						mAdvanceLastPrediction -= 1;
 					break;
 				case(02):
 					if ( KeyboardButton.state == Keyboard.SHIFT)
@@ -229,12 +245,16 @@ public class Keyboard {
 				case(05):
 					text = " ";
 					mDictionaryItem = null;
+					mLastPrediction = null;
+					mAdvanceLastPrediction = -1;
 					updatePredictions();
 					word ="";
 			}
 		} else {
 			text += c;
 			word += c;
+			if ( mDictionaryItem != null )
+			mLastPrediction = mDictionaryItem;
 			if ( word.length() == 1 ){
 				try {
 					mDictionaryItem = DictionaryItem.lookup(word, true);
@@ -246,6 +266,10 @@ public class Keyboard {
 				}
 			} else if ( mDictionaryItem != null ){
 				mDictionaryItem = mDictionaryItem.childContainingChar(c);
+			}
+			if ( mDictionaryItem == null){
+				mAdvanceLastPrediction = 1;
+				
 			}
 			updatePredictions();
 
