@@ -1,0 +1,7 @@
+<preferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<checkBoxPreference
+		android:key="@string/checkbox"
+		android:title="Checkbox Preference"
+		android:summary="Check it on, check it off" />
+</preferenceScreen>

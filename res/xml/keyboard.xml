@@ -62,6 +62,8 @@
 />
 </Row>
 <Row>
+<Spacer 
+	amount="0.5"/>
 <Key
 	key="a"
 	key_shift="A"
@@ -120,6 +122,13 @@
 </Row>
 <Row>
 <Key
+	key="SHIFT"
+	span="1.5"
+	key_shift="A"
+	key_num="1"
+	key_sim="1"	
+/>
+<Key
 	key="z"
 	key_shift="Z"
 	key_num="!"
@@ -162,56 +171,54 @@
 	key_sim="2"	
 />
 <Key
+	key="BACK"
+	span="1.5"
+	key_shift="B"
+	key_num="2"
+	key_sim="2"	
+/>
+
+
+</Row>
+<Row>
+
+<Key
+	key="SYM"
+	span="2.0"
+	key_shift="B"
+	key_num="2"
+	key_sim="2"	
+/>
+<Key
 	key=","
+	span="1.5"
+	key_shift="A"
+	key_num="1"
+	key_sim="1"	
+/>
+<Key
+	key="SPACE"
+	span="3.0"
 	key_shift="A"
 	key_num="1"
 	key_sim="1"	
 />
 <Key
 	key="."
-	key_shift="B"
-	key_num="2"
-	key_sim="2"	
-/>
-
-</Row>
-<Row>
-<Key
-	key="SHIFT"
 	span="1.5"
-	key_shift="A"
-	key_num="1"
-	key_sim="1"	
-/>
-<Key
-	key="SYM"
-	span="1.5"
-	key_shift="B"
+		key_shift="B"
 	key_num="2"
 	key_sim="2"	
 />
 <Key
-	key="SPACE"
-	span="5.0"
-	key_shift="A"
-	key_num="1"
-	key_sim="1"	
-/>
-<Key
-	key="NUM"
-	span="1.5"
+	key="GO"
+	span="2.0"
 	
 	key_shift="A"
 	key_num="1"
 	key_sim="1"	
 />
-<Key
-	key="RETURN"
-	span="1.5"
-	key_shift="B"
-	key_num="2"
-	key_sim="2"	
-/>
+
 
 </Row>
 </Keyboard>
