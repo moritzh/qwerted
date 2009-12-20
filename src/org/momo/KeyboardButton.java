@@ -409,40 +409,29 @@ public class KeyboardButton {
 		// store our temp values.
 		// first case: straight.
 
-		if (this.relType == KeyboardButton.DIAG) {
-			// all variables here use the notation a to d as base, where a is
-			// "this", b is the button right next to this, c is the button below
-			// a and b and d is the button on the lower-right
-
-			float aRight = this.negotiate(this, this.buttonRelRight);
-
-			float aLowerLimit = this.negotiate(this, this.buttonRelDiagBelow);
-			float bLowerLimit = this.negotiate(this.buttonRelRight, this.buttonRelDiagBelow);
-			// because b is dependant on d to know it's exact allowed stretch,
-			// this value is also negotiated if there is d.
-			if (this.buttonRelRight != null && this.buttonRelRight.buttonRelDiagBelow != null && this.buttonRelRight.buttonRelDiagBelow.weight > this.buttonRelRight.weight) {
-				bLowerLimit = this.negotiate(this.buttonRelRight, this.buttonRelRight.buttonRelDiagBelow);
-			} else if (this.buttonRelRight!= null && this.buttonRelRight.buttonRelDiagBelow == null) {
-				bLowerLimit = (bLowerLimit > 0.5f ? 0.5f : bLowerLimit);
+		if (this.relType == KeyboardButton.DIAG && this.row != 2) {
+			// second try, much simpler
+			// just negotiate with the button right and the button below
+			float aToC = this.negotiate(this, this.buttonRelDiagBelow);
+			float aToB = this.negotiate(this, this.buttonRelRight);
+			float bToC = this.negotiate(this.buttonRelRight, this.buttonRelDiagBelow);
+			
+			float largerDownDistance = Math.max(aToC,bToC);
+			
+			if ( this.dontModifyBelow && largerDownDistance < this.negotiationRect.bottom || this.dontModifyBelow== false){
+				this.negotiationRect.bottom = largerDownDistance;
 			}
-
-			aLowerLimit = (aLowerLimit > bLowerLimit ? aLowerLimit
-					: bLowerLimit);
-
-			if (this.dontModifyBelow == false)
-				this.negotiationRect.bottom = aLowerLimit;
-			this.negotiationRect.right = aRight;
-			if (this.buttonRelRight != null) {
-				this.buttonRelRight.negotiationRect.left = 1.0f - aRight;
-				this.buttonRelRight.negotiationRect.bottom = bLowerLimit;
+			// the right and left stuff is clear.
+			this.negotiationRect.right = aToB;
+			if (this.buttonRelRight != null){
 				this.buttonRelRight.dontModifyBelow = true;
-				if (this.buttonRelRight.buttonRelDiagBelow != null) {
-
-				}
+				this.buttonRelRight.negotiationRect.left = 1.0f - aToB;
+				this.buttonRelRight.negotiationRect.bottom = largerDownDistance;				
 			}
-			if (this.buttonRelDiagBelow != null) {
-				this.buttonRelDiagBelow.negotiationRect.top = 1.0f - aLowerLimit;
-			}
+			
+			if (this.buttonRelDiagBelow != null)
+				this.buttonRelDiagBelow.negotiationRect.top = 1.0f - largerDownDistance;
+			
 		} else if (this.relType == KeyboardButton.STRAIGHT) {
 			// a relation type straight means that we need to set up four keys 
 			// now. a bit expensive, but necessary.
@@ -459,10 +448,16 @@ public class KeyboardButton {
 			
 			if ( this.buttonRelStraightBelow != null){
 				this.buttonRelStraightBelow.negotiationRect.top = 1.0f - wBelow;
+				this.buttonRelStraightBelow.negotiationRect.right = wGrowRight;
 			}
 			
 			if ( this.buttonRelRight != null){
 				this.buttonRelRight.negotiationRect.left = 1.0f - wGrowRight;
+			}
+			
+			if ( this.buttonRelDiagBelow != null ){
+				this.buttonRelDiagBelow.negotiationRect.left = 1.0f - wGrowRight;
+				
 			}
 		}
 
@@ -477,7 +472,7 @@ public class KeyboardButton {
 	 * @return if this button needs to renegotiate its size.
 	 */
 	private boolean needsRenegotiation() {
-
+/*
 		if (this.dirty) {
 			return true;
 		} else {
@@ -485,13 +480,12 @@ public class KeyboardButton {
 					|| (this.buttonRelDiagBelow != null && this.buttonRelDiagBelow
 							.dirty)
 					|| (this.buttonRelStraightBelow != null && this.buttonRelStraightBelow
-							.dirty) /*|| this.buttonRelRight != null
-					&& this.buttonRelRight.buttonRelDiagBelow != null
-					&& this.buttonRelRight.buttonRelDiagBelow.dirty*/)
+							.dirty) )
 				return true;
 			else
 				return false;
-		}
+		}*/
+		return true;
 		 
 	}
 
