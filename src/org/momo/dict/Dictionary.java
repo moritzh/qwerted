@@ -10,8 +10,9 @@ import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * only entrypoint to the dictionary. create yourself an instance, load a
- * datafile and read data. should be fast.
+ * Is the entrypoint to any dictionary. Equipped with some basic operations ( like
+ * retrieving words, retrieving their children, creating items, etc. ). This
+ * monster also handles all file write actions.
  * 
  * @author moritzhaarmann
  * 
@@ -126,21 +127,8 @@ public class Dictionary {
 
 		itemOfChoice.isSaved = true;
 
-		DictionaryCache.put(itemOfChoice);
-		writeCount++;
-		if (writeCount > 400000){
-			// reopen file, resync.
-			file.close();
-
-			for ( int i = 0;i<7;i++){
-				System.out.print(".");
-				Thread.sleep(1000);
-			}
-			System.out.print("\n");
-			file = new RandomAccessFile(fileHandle, "rw");
-
-			writeCount =0;
-		}
+		//DictionaryCache.put(itemOfChoice);
+		
 		return itemOfChoice;
 
 	}

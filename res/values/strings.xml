@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+   
     <string name="app_name">iType</string>
 
-<string name="checkbox">ckb</string>
+	<string name="checkbox">ckb</string>
+	<string name="pref.itype_preferences">iType Preferences</string>
+	<string name="pref.view.rounded_buttons">Rounded Buttons</string>
+	<string name="pref.view.rounded_buttons_summary">Check if you want the buttons to be rounded.</string>
+	<string name="pref.view.gap">Button Spacing</string>
+	<string name="pref.view.gap_summary">How much space to leave between two buttons.</string>
+	<string name="pref.view.border">Button Border</string>
+	<string name="pref.view.border_summary">Draw a border around each button.</string>
 </resources>

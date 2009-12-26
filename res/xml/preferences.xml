@@ -1,13 +1,24 @@
-<PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android" android:title="foo" android:key="bar">
-	<CheckBoxPreference
-		android:key="@string/checkbox"
-		android:title="Enable Prediction"
-		android:summary="You could have saved 2.99$ if you turn this off." />
-		<CheckBoxPreference android:key="vibrate" android:title="Vibrate on Key" android:summary="Makes your device vibrate every time you touch a button" />
-		<PreferenceCategory android:name="Layout Settings" android:summary="Change the layout of the keyboard">
-		<CheckBoxPreference android:key="rounded_rect" android:title="Rounded Buttons" android:summary="Instead of having edgy buttons, this option allows you to have slightly rounded buttons on your keyboard" />
-		<CheckBoxPreference android:key="border_rect" android:title="Button Borders" android:summary="Whether to draw a border around each button" />
-		<EditTextPreference android:key="key_gap" android:title="Inter-Button Gap" android:summary="Specifies the Gap between two buttons" />
-		</PreferenceCategory>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/pref.itype_preferences">
+	<CheckBoxPreference android:key="keyboard.predict"
+		android:title="Enable Prediction" android:summary="You could have saved 2.99$ if you turn this off." />
+	<CheckBoxPreference android:key="keyboard.vibrate"
+		android:title="Vibrate on Key"
+		android:summary="Makes your device vibrate every time you touch a button" />
+		<PreferenceScreen android:title="Dictionary Settings" android:summary="Manage and download dictionaries">
+		<CheckBoxPreference android:key="dict.user.enabled"
+			android:title="User Dictionary"
+			android:summary="Disable the user dictionary. New Words won't get saved!" android:editable="false"/>
+		</PreferenceScreen>
+	<PreferenceScreen android:title="Layout Settings" android:summary="Change the look of iType">
+		<CheckBoxPreference android:key="view.button.round"
+			android:title="@string/pref.view.rounded_buttons"
+			android:summary="@string/pref.view.rounded_buttons_summary" />
+		<CheckBoxPreference android:key="view.button.border"
+			android:title="@string/pref.view.border" android:summary="@string/pref.view.border_summary" />
+				
+		<EditTextPreference android:numeric="decimal"
+			android:maxLength="2" android:key="view.button.gap" android:title="@string/pref.view.gap"
+			android:summary="@string/pref.view.gap_summary" />
+	</PreferenceScreen>
 </PreferenceScreen>
