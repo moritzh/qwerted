@@ -8,215 +8,152 @@
 />
 <Key
 	key="w"
+	
 	key_shift="W"
-	key_num="2"
-	key_sim="2"	
 />
 <Key
-	key="e"
-	key_shift="E"
-	key_num="3"
-	key_sim="1"	
+	key="e é è ê ë"
+	key_shift="E É È Ê Ë"
 />
 <Key
 	key="r"
 	key_shift="R"
-	key_num="4"
-	key_sim="1"	
 /> 
 <Key
 	key="t"
 	key_shift="T"
-	key_num="5"
-	key_sim="2"	
 />
 <Key
 	key="y"
 	key_shift="Y"
-	key_num="6"
-	key_sim="1"	
 />
 <Key
-	key="u"
-	key_shift="U"
-	key_num="7"
-	key_sim="2"	
+	key="u ü ú ù û"
+	key_shift="U Ü Ú Ù Û"
 />
 <Key
-	key="i"
-	key_shift="I"
-	key_num="8"
-	key_sim="1"	
+	key="i í ì î ï"
+	key_shift="I Î Í Ì Ï"
 />
 <Key
-	key="o"
+	key="o ö ó ò ô"
 	key_shift="O"
-	key_num="9"
-	key_sim="2"	
 />
 <Key
 	key="p"
 	key_shift="P"
-	key_num="0"
-	key_sim="2"	
 />
 </Row>
 <Row>
 <Spacer 
 	amount="0.5"/>
 <Key
-	key="a"
-	key_shift="A"
-	key_num="\@"
-	key_sim="1"	
+	key="a ä á à â"
+	key_shift="A Ä Á À Â"
 />
 <Key
-	key="s"
+	key="s ß"
 	key_shift="S"
-	key_num="\#"
-	key_sim="2"	
 />
 <Key
 	key="d"
 	key_shift="D"
-	key_num="$"
-	key_sim="1"	
 />
 <Key
 	key="f"
 	key_shift="F"
-	key_num="%"
-	key_sim="1"	
 />
 <Key
 	key="g"
 	key_shift="G"
-		key_num="_"
-	key_sim="2"	
 	/>
 <Key
 	key="h"
 	key_shift="H"
-	key_num="*"
-	key_sim="1"	
 />
 <Key
 	key="j"
 	key_shift="J"
-	key_num="-"
-	key_sim="2"	
 />
 <Key
 	key="k"
 	key_shift="K"
-	key_num="+"
-	key_sim="1"	
 />
 <Key
 	key="l"
 	key_shift="L"
-	key_num="("
-	key_sim="2"	
 />
 
 </Row>
 <Row>
-<Key
+<SpecialKey
 	key="SHIFT"
 	span="1.5"
 	key_shift="A"
-	key_num="1"
-	key_sim="1"	
 />
 <Key
 	key="z"
 	key_shift="Z"
-	key_num="!"
-	key_sim="1"	
 />
 <Key
 	key="x"
 	key_shift="X"
-	key_num="\"
-	key_sim="2"	
 />
 <Key
-	key="c"
-	key_shift="C"
-	key_num="'"
-	key_sim="1"	
+	key="c ç"
+	key_shift="C Ç"
 />
 <Key
 	key="v"
 	key_shift="V"
-	key_num=":"
-	key_sim="1"	
 />
 <Key
 	key="b"
 	key_shift="B"
-	key_num=";"
-	key_sim="2"	
 />
 <Key
 	key="n"
 	key_shift="N"
-	key_num="\/"
-	key_sim="1"	
 />
 <Key
 	key="m"
 	key_shift="M"
-	key_num="\?"
-	key_sim="2"	
 />
-<Key
+<SpecialKey
 	key="BACK"
 	span="1.5"
 	key_shift="B"
-	key_num="2"
-	key_sim="2"	
 />
 
 
 </Row>
 <Row>
 
-<Key
+<SpecialKey
 	key="SYM"
 	span="2.0"
 	key_shift="B"
-	key_num="2"
-	key_sim="2"	
 />
 <Key
 	key=","
 	span="1.5"
-	key_shift="A"
-	key_num="1"
-	key_sim="1"	
+	key_shift=","
 />
-<Key
+<SpecialKey
 	key="SPACE"
 	span="3.0"
 	key_shift="A"
-	key_num="1"
-	key_sim="1"	
 />
 <Key
 	key="."
 	span="1.5"
-		key_shift="B"
-	key_num="2"
-	key_sim="2"	
+		key_shift="."
 />
-<Key
+<SpecialKey
 	key="GO"
 	span="2.0"
 	
 	key_shift="A"
-	key_num="1"
-	key_sim="1"	
 />
 
 

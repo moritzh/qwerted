@@ -60,6 +60,19 @@ public class DictionaryItem {
 		return d;
 	}
 
+	public static DictionaryItem[] getRootItems() throws IOException{
+		Vector<DictionaryItem> result = new Vector<DictionaryItem>();
+		DictionaryItem root = dict.readFirst();
+		result.add(root);
+		while ( root.hasSibling()){
+			result.add(root.getNextSibling());
+			root = root.getNextSibling();
+		}
+		DictionaryItem[] resA = new DictionaryItem[result.size()];
+		Log.d("F","BARASDFADFASDF");
+		return result.toArray(resA);
+	}
+	
 	/**
 	 * this is a lookup-or-create method. on successful lookup, the looked up
 	 * item gets increased, otherwise this item is created. always returns a
@@ -223,16 +236,18 @@ public class DictionaryItem {
 				children.add(currentItem);
 
 			}
-
+ 
 			return children.toArray(new DictionaryItem[children.size()]);
 		}
 	}
 
-	public HashMap<Character, Float> childrenWithWeights() {
+	public static HashMap<Character, Float> childrenWithWeights(DictionaryItem foo) {
 		DictionaryItem[] mChildren;
 		try {
-			mChildren = this.children();
-
+			if ( foo == null)
+				mChildren = DictionaryItem.getRootItems();
+			else
+				mChildren = foo.children();
 			if (mChildren.length == 0) {
 				return new HashMap<Character, Float>();
 			} else {
@@ -256,6 +271,7 @@ public class DictionaryItem {
 				return resultMap;
 			}
 		} catch (Exception e) {
+			Log.e("E", "foo");
 			// TODO Auto-generated catch block
 			return new HashMap<Character, Float>();
 		}

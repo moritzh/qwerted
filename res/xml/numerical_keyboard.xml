@@ -3,104 +3,72 @@
 <Key
 	key="1"
 	key_shift="Q"
-	key_num="1"
-	key_sim="1"	
 />
 <Key
 	key="2"
 	key_shift="W"
-	key_num="2"
-	key_sim="2"	
 />
 <Key
 	key="3"
 	key_shift="E"
-	key_num="3"
-	key_sim="1"	
 />
 <Key
 	key="-"
 	key_shift="R"
-	key_num="4"
-	key_sim="1"	
 /> 
 </Row>
 <Row>
 <Key
 	key="4"
 	key_shift="T"
-	key_num="5"
-	key_sim="2"	
 />
 <Key
 	key="5"
 	key_shift="Y"
-	key_num="6"
-	key_sim="1"	
 />
 <Key
 	key="6"
 	key_shift="U"
-	key_num="7"
-	key_sim="2"	
 />
 <Key
 	key="."
 	key_shift="I"
-	key_num="8"
-	key_sim="1"	
 />
 </Row>
 <Row>
 <Key
 	key="7"
 	key_shift="O"
-	key_num="9"
-	key_sim="2"	
 />
 <Key
 	key="8"
 	key_shift="P"
-	key_num="0"
-	key_sim="2"	
 />
 <Key
 	key="9"
 	key_shift="A"
-	key_num="\@"
-	key_sim="1"	
 />
-<Key
+<SpecialKey
 	key="BACK"
 	key_shift="S"
-	key_num="\#"
-	key_sim="2"	
 />
 </Row>
 <Row>
 <Key
 	key="*"
 	key_shift="D"
-	key_num="$"
-	key_sim="1"	
 />
 <Key
 	key="0"
 	key_shift="F"
-	key_num="%"
-	key_sim="1"	
 />
-<Key
+<SpecialKey
 	key="SPACE"
 	key_shift="G"
-		key_num="_"
-	key_sim="2"	
 	/>
-<Key
+<SpecialKey
 	key="GO"
 	key_shift="H"
-	key_num="*"
-	key_sim="1"	
 />
 </Row>
 </Keyboard>

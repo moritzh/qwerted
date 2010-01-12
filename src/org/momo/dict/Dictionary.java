@@ -1,9 +1,6 @@
 package org.momo.dict;
 
 import java.io.File;
-import java.io.FileDescriptor;
-
-import android.content.res.AssetFileDescriptor;
 import android.util.*;
 import java.io.*;
 import java.util.HashMap;
@@ -140,7 +137,7 @@ public class Dictionary {
 	}
 
 	public static int fromShort(short foo) {
-		return (int) (foo);
+		return (foo);
 	}
 
 	/**

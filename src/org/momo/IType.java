@@ -1,6 +1,7 @@
 package org.momo;
 
 import android.inputmethodservice.InputMethodService;
+import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
@@ -11,23 +12,33 @@ import android.view.inputmethod.EditorInfo;
  *
  */
 public class IType extends InputMethodService {
-	private Keyboard mStandardKeyboard;
-	private Keyboard mNumericalKeyboard;
+	private Keyboard mStandardKeyboard; // normal keybosard.
+	private Keyboard mNumericalKeyboard; // small, numerical board
+	private Keyboard mSymbolKeyboard; // all the numerical, symbol, stuff
+	
+	private boolean isSym = false;
+	
+	@Override
 	public void onBindInput(){
 		
 	}
-	
+	 
+	@Override
 	public View onCreateInputView(){
 		mStandardKeyboard = new Keyboard(this, this.getBaseContext().getResources().getXml(R.xml.keyboard));
 		mNumericalKeyboard = new Keyboard(this, this.getBaseContext().getResources().getXml(R.xml.numerical_keyboard));
-		if ( this.getCurrentInputEditorInfo().inputType == EditorInfo.TYPE_CLASS_NUMBER)
+		mSymbolKeyboard = new Keyboard(this, this.getBaseContext().getResources().getXml(R.xml.smybol_board));
+		mNumericalKeyboard.setPrediction(false);
+		mSymbolKeyboard.setPrediction(false);
+		if ( this.getCurrentInputEditorInfo().inputType == InputType.TYPE_CLASS_NUMBER)
 			return mNumericalKeyboard.getKeyboard();
 		else
 			return mStandardKeyboard.getKeyboard();
 	}
 	
+	@Override
 	public void onStartInputView (EditorInfo attribute, boolean restarting){
-		if ( (attribute.inputType & EditorInfo.TYPE_CLASS_NUMBER) == EditorInfo.TYPE_CLASS_NUMBER){
+		if ( (attribute.inputType & InputType.TYPE_CLASS_NUMBER) == InputType.TYPE_CLASS_NUMBER){
 			mNumericalKeyboard.onStartInput(attribute, restarting);
 			this.setInputView(mNumericalKeyboard.getKeyboard());
 		}
@@ -35,5 +46,22 @@ public class IType extends InputMethodService {
 			mStandardKeyboard.onStartInput(attribute, restarting);
 			this.setInputView(mStandardKeyboard.getKeyboard());
 		}
+
+	}
+	
+	/**
+	 * just switch from standard to symbolic.
+	 */
+	public void switchSym(){
+		if ( isSym ){
+			mStandardKeyboard.onStartInput(this.getCurrentInputEditorInfo(), false);
+
+			this.setInputView(mStandardKeyboard.getKeyboard());
+		}else{
+			mSymbolKeyboard.onStartInput(this.getCurrentInputEditorInfo(), false);
+
+			this.setInputView(mSymbolKeyboard.getKeyboard());
+		}
+		isSym = !isSym;
 	}
 }

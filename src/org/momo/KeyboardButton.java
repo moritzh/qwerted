@@ -2,6 +2,7 @@ package org.momo;
 
 import org.momo.util.DisplaySet;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,7 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
-import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.GradientDrawable;
 
 /**
  * basically, the button is some kind of information-holding entity. it is
@@ -22,10 +23,16 @@ import android.graphics.drawable.NinePatchDrawable;
  */
 
 public class KeyboardButton {
-	
+
+	// background drawable, set by KeyboardView
+	public static Bitmap mBackground;
+	public static Rect mBackgroundRect;
+
+	public char mPunched;
+
 	// just for profiling and debugging
 	public static long timeTaken;
-	
+
 	// the special key types.
 	public static final String KEY_SHIFT = "SHIFT";
 	public static final String KEY_SYM = "SYM";
@@ -33,13 +40,15 @@ public class KeyboardButton {
 	public static final String KEY_GO = "GO";
 	public static final String KEY_MAGIC = "MAGIC";
 	public static final String KEY_BACK = "BACK";
-	
-	
+
+	public static boolean isSpecial = false;
+
 	// just some "defines" for orientations
 	public static final short DIAG = 1;
 	public static final short STRAIGHT = 2;
 
-	// if this is set to true, any negotiation may not modify this buttons below value.
+	// if this is set to true, any negotiation may not modify this buttons below
+	// value.
 	public boolean dontModifyBelow = false;
 
 	public static short state = Keyboard.NORMAL;
@@ -59,46 +68,47 @@ public class KeyboardButton {
 	public KeyboardButton buttonRelDiagBelow;
 	public KeyboardButton buttonRelRight;
 
-	// the type of relation this button has to negotiate. is set in keyboard.java
+	// the type of relation this button has to negotiate. is set in
+	// keyboard.java
 	// and used here.
 	public short relType;
 
-
-
 	// the inter-button gap.
 	private static int gap = 4;
-	private static float mPredictionLevel = 1.0f;
 
 	Rect currentRect;
 
 	// where the actual information about what is displayed etc is stored.
 	// see the displayset below for how it works.
-	public DisplaySet numSet, symSet, shiftSet, normSet;
-	public static NinePatchDrawable mBackgroundDrbl;
+	public DisplaySet shiftSet, normSet;
 	// wether this button is displayed highlighted.
 	public boolean highlight = false;
 	// the current drawable rectangle. this is, of course, also the
 
 	// the rectangle used to store the negotiation results.
 	private RectF negotiationRect = new RectF(0.5f, 0.5f, 0.5f, 0.5f);
-	
+
 	// the screen width and height.
 	// maybe those should be taken to keyboardview.
 	private static int screenX;
 	private static int screenY;
 
 	// will be populated later.
-	private static int baseButtonHeight = 0;
-	private static int baseButtonWidth = 0;
+	public static int baseButtonHeight = 0;
+	public static int baseButtonWidth = 0;
 
 	// the paints are stored here so they don't have to be recreated each draw.
-	Paint borderPaint;
-
-	Paint fillPaint;
-
-	Paint textPaint;
+	static Paint borderPaint;
+	static Paint fillPaint;
+	static Paint textPaint;
+	static Paint highlightPaint;
 	public char currentSendChar;
 	private Keyboard keyboard;
+
+	// TODO remove
+	public static GradientDrawable mGradientBackground;
+	
+	
 	/**
 	 * public constructor
 	 * 
@@ -116,36 +126,49 @@ public class KeyboardButton {
 	 * @param columnSpan
 	 *            the horizontal span of this button
 	 */
-	public KeyboardButton(DisplaySet norm, DisplaySet num, DisplaySet shift,
-			DisplaySet sym, float row, float column, float columnSpan, Keyboard k) {
+	public KeyboardButton(DisplaySet norm, DisplaySet shift, float row,
+			float column, float columnSpan, Keyboard k) {
 		this.keyboard = k;
 		// init row and column setup, as well as the chars. no surprises here
 		this.row = (int) row;
 		this.normSet = norm;
-		this.numSet = num;
 		this.shiftSet = shift;
-		this.symSet = sym;
+		this.mPunched = 0;
 		this.column = column;
 		this.columnSpan = columnSpan;
+		if (KeyboardButton.borderPaint == null)
+			initEnvironment();
 		if (this.row > keyboard.rowCount)
 			keyboard.rowCount = this.row;
 		if (this.column > keyboard.colCount)
 			keyboard.colCount = this.column;
 		// init the paints
+
+	}
+
+	public void initEnvironment() {
 		borderPaint = new Paint();
-		borderPaint.setColor(Color.rgb(0,0,0));
-		//borderPaint.setAntiAlias(true);
+		borderPaint.setColor(Color.rgb(200, 200, 200));
+		// borderPaint.setAntiAlias(true);
 		fillPaint = new Paint();
-		//fillPaint.setAntiAlias(true);
-		fillPaint.setColor(Color.rgb(240, 240, 240));
+		// fillPaint.setAntiAlias(true);
+		fillPaint.setColor(this.keyboard.getContext().getResources().getColor(
+				R.color.key_background));
 		textPaint = new Paint();
 		textPaint.setAntiAlias(true);
-		textPaint.setColor(Color.rgb(100, 100, 100));
+		textPaint.setColor(this.keyboard.getContext().getResources().getColor(
+				R.color.key_color));
 		textPaint.setTypeface(KeyboardView.mTypeface);
-		KeyboardView.mTypeface = Typeface.create(KeyboardView.mTypeface, Typeface.BOLD);
-		textPaint.setTextSize(22f);
-		
+		KeyboardView.mTypeface = Typeface.create(KeyboardView.mTypeface,
+				Typeface.BOLD);
 		textPaint.setTextAlign(Align.CENTER);
+		highlightPaint = new Paint();
+		highlightPaint.setColor(this.keyboard.getContext().getResources()
+				.getColor(R.color.key_highlight));
+		mGradientBackground = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,new int[]{Color.LTGRAY,Color.WHITE});
+		mGradientBackground.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+		
+
 	}
 
 	/**
@@ -155,6 +178,7 @@ public class KeyboardButton {
 	 */
 	public Rect currentHitRectangle() {
 		return currentRect;
+
 	}
 
 	/**
@@ -170,57 +194,28 @@ public class KeyboardButton {
 		long startTime = System.currentTimeMillis();
 
 		currentRect = this.getExpandedRect();
-		if ( this.highlight){
-			Paint hPaint = new Paint();
-			hPaint.setColor(Color.RED);
-			drawRectWithBorder(c, currentRect, 2, borderPaint, hPaint);
+		char sC;
+		if ( mPunched == 0){
+			sC = this.getActiveSet().show;
 		} else {
-			drawRectWithBorder(c, currentRect, 2, borderPaint, fillPaint);
+			sC = this.mPunched;
+		}
+		if (this.highlight) {
+			ButtonRenderer.drawButton(c, sC, this
+					.getActiveSet().render, currentRect,
+					KeyboardButton.borderPaint, KeyboardButton.highlightPaint,
+					KeyboardButton.textPaint);
+
+		} else {
+			ButtonRenderer.drawButton(c, sC, this
+					.getActiveSet().render, currentRect,
+					KeyboardButton.borderPaint, KeyboardButton.fillPaint,
+					KeyboardButton.textPaint);
 
 		}
-		
-		// we prefer graphics.
-		if (getActiveSet().render == null) {
-			c.drawText(getActiveSet().show + "", currentRect.centerX(),
-					currentRect.centerY() + 8, textPaint);
-			this.currentSendChar = getActiveSet().send;
-		} else {
 
-			Rect nBounds = new Rect();
-			int bHeight = normSet.render.getIntrinsicHeight();
-			int bWidth = normSet.render.getIntrinsicWidth();
-			nBounds.top = currentRect.centerY() - bHeight / 2;
-			nBounds.bottom = nBounds.top + bHeight;
-			nBounds.left = currentRect.centerX() - bWidth / 2;
-			nBounds.right = nBounds.left + bWidth;
-			normSet.render.setBounds(nBounds);
-
-			normSet.render.draw(c);
-		}
 		KeyboardButton.timeTaken += System.currentTimeMillis() - startTime;
 
-	}
-
-	/**
-	 * helper to draw a rectangle with a border, rounded.
-	 * 
-	 * @param c
-	 *            the canvas
-	 * @param r
-	 *            the rectangle to draw
-	 * @param bWidth
-	 *            the borderwidth, in px.
-	 * @param border
-	 *            the border color.
-	 * @param fill
-	 *            the fill-color.
-	 */
-	public  final void drawRectWithBorder(Canvas c, Rect r, int bWidth, Paint border, 
-			Paint fill) {
-		Rect fillRect = new Rect(r.left + bWidth, r.top + bWidth, r.right
-				- bWidth, r.bottom - bWidth);
-		c.drawRoundRect(new RectF(r), 2, 2, border);
-		c.drawRoundRect(new RectF(fillRect), 2, 2, fill);
 	}
 
 	public void updateState(int state) {
@@ -251,11 +246,7 @@ public class KeyboardButton {
 				return shiftSet;
 			else
 				return normSet;
-		case (Keyboard.NUMERICAL):
-			if (numSet != null)
-				return numSet;
-			else
-				return normSet;
+
 		default:
 			return normSet;
 		}
@@ -345,6 +336,8 @@ public class KeyboardButton {
 			// it's time to get the real value.
 			KeyboardButton.baseButtonHeight = (int) Math.abs(Math
 					.floor(expandedHeight * 0.5f));
+			textPaint.setTextSize(baseButtonHeight * 0.8f);
+
 			return KeyboardButton.baseButtonHeight;
 		} else {
 			return KeyboardButton.baseButtonHeight;
@@ -377,13 +370,12 @@ public class KeyboardButton {
 		// just for testing
 		if (weight == newWeight) {
 			// to avoid being recalc.
-			this.dirty = false;
 			return;
 		}
-		dirty = true;
 		weight = newWeight;
-		int rgbVal = 150 + Math.round(newWeight * 100.0f);
-		fillPaint.setColor(Color.rgb(rgbVal, 255, 255));
+		mPunched = 0;
+		// int rgbVal = 150 + Math.round(newWeight * 100.0f);
+		// fillPaint.setColor(Color.rgb(rgbVal, 255, 255));
 	}
 
 	/**
@@ -397,11 +389,6 @@ public class KeyboardButton {
 		// negotiationRect.right = 0.5f;
 
 	}
-
-	/**
-	 * dirty is always used directly
-	 */
-	private boolean dirty = false;
 
 
 	/**
@@ -420,6 +407,7 @@ public class KeyboardButton {
 	 * expanded rectangle.
 	 */
 	void renegotiateSize() {
+
 		if (!this.needsRenegotiation()) {
 			return;
 		}
@@ -434,69 +422,87 @@ public class KeyboardButton {
 			// just negotiate with the button right and the button below
 			float aToC = this.negotiate(this, this.buttonRelDiagBelow);
 			float aToB = this.negotiate(this, this.buttonRelRight);
-			float bToC = this.negotiate(this.buttonRelRight, this.buttonRelDiagBelow);
-			
-			float largerDownDistance = Math.max(aToC,bToC);
-			
-			if ( this.dontModifyBelow && largerDownDistance < this.negotiationRect.bottom || this.dontModifyBelow== false){
+			float bToC = this.negotiate(this.buttonRelRight,
+					this.buttonRelDiagBelow);
+
+			float largerDownDistance = Math.max(aToC, bToC);
+
+			if (this.dontModifyBelow
+					&& largerDownDistance < this.negotiationRect.bottom
+					|| this.dontModifyBelow == false) {
 				this.negotiationRect.bottom = largerDownDistance;
 			}
 			// the right and left stuff is clear.
 			this.negotiationRect.right = aToB;
-			if (this.buttonRelRight != null){
+			if (this.buttonRelRight != null) {
 				this.buttonRelRight.dontModifyBelow = true;
 				this.buttonRelRight.negotiationRect.left = 1.0f - aToB;
-				this.buttonRelRight.negotiationRect.bottom = largerDownDistance;				
+				this.buttonRelRight.negotiationRect.bottom = largerDownDistance;
 			}
-			
+
 			if (this.buttonRelDiagBelow != null)
 				this.buttonRelDiagBelow.negotiationRect.top = 1.0f - largerDownDistance;
-			
+
 		} else if (this.relType == KeyboardButton.STRAIGHT) {
-			// find out the max growth for both right and below. 
+			// find out the max growth for both right and below.
 			float maxGrowRight;
 			float maxGrowBelow;
-			if ( this.buttonRelStraightBelow == null || this.weight > this.buttonRelStraightBelow.weight){
+			if ((this.buttonRelDiagBelow !=null&& this.buttonRelDiagBelow.isSpecialKey()) || 
+					this.buttonRelRight != null && this.buttonRelRight.isSpecialKey()){
+				maxGrowRight = 0.5f;
+			} else	if (this.buttonRelStraightBelow == null
+					|| this.weight > this.buttonRelStraightBelow.weight) {
 				float growA = this.negotiate(this, this.buttonRelRight);
 				float growB = this.negotiate(this, this.buttonRelDiagBelow);
 				maxGrowRight = Math.min(growA, growB);
 			} else {
-				float growA = this.negotiate(this.buttonRelStraightBelow, this.buttonRelRight);
-				float growB = this.negotiate(this.buttonRelStraightBelow, this.buttonRelDiagBelow);
+				float growA = this.negotiate(this.buttonRelStraightBelow,
+						this.buttonRelRight);
+				float growB = this.negotiate(this.buttonRelStraightBelow,
+						this.buttonRelDiagBelow);
 				maxGrowRight = Math.min(growA, growB);
 			}
-			
-			if ( this.buttonRelRight == null || this.buttonRelRight.weight < this.weight){
+			if ((this.buttonRelStraightBelow !=null&& this.buttonRelStraightBelow.isSpecialKey()) || 
+					this.buttonRelDiagBelow != null && this.buttonRelDiagBelow.isSpecialKey()){
+				maxGrowBelow = 0.5f;
+			} else	if (this.buttonRelRight == null
+					|| this.buttonRelRight.weight < this.weight) {
 				float growC = this.negotiate(this, this.buttonRelStraightBelow);
 				float growD = this.negotiate(this, this.buttonRelDiagBelow);
-				maxGrowBelow = Math.min(growC, growD);
+				maxGrowBelow = Math.max(growC, growD);
 			} else {
-				float growC = this.negotiate(this.buttonRelRight, this.buttonRelStraightBelow);
-				float growD = this.negotiate(this.buttonRelRight, this.buttonRelDiagBelow);
-				maxGrowBelow = Math.min(growC, growD);
+				float growC = this.negotiate(this.buttonRelRight,
+						this.buttonRelStraightBelow);
+				float growD = this.negotiate(this.buttonRelRight,
+						this.buttonRelDiagBelow);
+				maxGrowBelow = Math.max(growC, growD);
 			}
-			
+
 			// set the buttons.
 			this.negotiationRect.right = maxGrowRight;
-			this.negotiationRect.bottom = maxGrowBelow;
-			
-			if ( this.buttonRelRight != null ){
+			if (this.negotiationRect.bottom < maxGrowBelow)
+				this.negotiationRect.bottom = maxGrowBelow;
+
+			if (this.buttonRelRight != null) {
 				this.buttonRelRight.negotiationRect.left = 1.0f - maxGrowRight;
 				this.buttonRelRight.negotiationRect.bottom = maxGrowBelow;
 			}
-			
-			if (this.buttonRelStraightBelow != null){
-				this.buttonRelStraightBelow.negotiationRect.top = 1.0f - maxGrowBelow;
-				this.buttonRelStraightBelow.negotiationRect.right = maxGrowRight;
+
+			if (this.buttonRelStraightBelow != null
+					&& !this.buttonRelStraightBelow.isSpecialKey()) {
+				if (this.buttonRelStraightBelow.negotiationRect.top > (1.0f - maxGrowBelow))
+					this.buttonRelStraightBelow.negotiationRect.top = 1.0f - maxGrowBelow;
+				if (this.buttonRelStraightBelow.negotiationRect.right > (1.0f - maxGrowRight))
+					this.buttonRelStraightBelow.negotiationRect.right = maxGrowRight;
 			}
-			if (this.buttonRelDiagBelow != null){
+			if (this.buttonRelDiagBelow != null
+					&& !this.buttonRelDiagBelow.isSpecialKey()) {
 				this.buttonRelDiagBelow.negotiationRect.left = 1.0f - maxGrowRight;
 				this.buttonRelDiagBelow.negotiationRect.top = 1.0f - maxGrowBelow;
 			}
 		}
 
 		// mark dirty
-		this.dirty = false;
 	}
 
 	/**
@@ -506,20 +512,30 @@ public class KeyboardButton {
 	 * @return if this button needs to renegotiate its size.
 	 */
 	boolean needsRenegotiation() {
+		/*
+		 * if (this.dirty) { return true; } else { if ((this.buttonRelRight !=
+		 * null && this.buttonRelRight.dirty) || (this.buttonRelDiagBelow !=
+		 * null && this.buttonRelDiagBelow .dirty) ||
+		 * (this.buttonRelStraightBelow != null && this.buttonRelStraightBelow
+		 * .dirty) ) return true; else return false; }
+		 */
+		return true;
 
-		if (this.dirty) {
-			return true;
-		} else {
-			if ((this.buttonRelRight != null && this.buttonRelRight.dirty)
-					|| (this.buttonRelDiagBelow != null && this.buttonRelDiagBelow
-							.dirty)
-					|| (this.buttonRelStraightBelow != null && this.buttonRelStraightBelow
-							.dirty) )
-				return true;
-			else
-				return false;
-		}
-		 
+	}
+	
+	/**
+	 * returns all characters this key is able to display.
+	 * @return
+	 */
+	public char[] getAllChars(){
+		if ( this.isSpecialKey())
+			return new char[0];
+		char[] normSet = this.normSet.getAllCharacters();
+		char[] cShiftSet = this.shiftSet.getAllCharacters();
+		char returnSet[] = new char[normSet.length+cShiftSet.length];
+		System.arraycopy(normSet,0, returnSet, 0, normSet.length);
+		System.arraycopy(cShiftSet, 0,returnSet, normSet.length, cShiftSet.length);
+		return returnSet;
 	}
 
 	/**
@@ -554,14 +570,18 @@ public class KeyboardButton {
 
 	public static void setButtonGap(int gap2) {
 		// TODO Auto-generated method stub
-		KeyboardButton.gap = gap2;
+		KeyboardButton.gap = 8;
 		KeyboardButton.baseButtonHeight = 0;
 		KeyboardButton.baseButtonWidth = 0;
+
+	}
+
+	public static void resetMeasuredSizes() {
+		// TODO Auto-generated method stub
+		baseButtonHeight = 0;
+		baseButtonWidth = 0;
 		
 	}
+
 	
-	public static void setPredictionLevel(float what){
-		if ( what > 0.0f && what <= 1.0f)
-			KeyboardButton.mPredictionLevel = what;
-	}
 }

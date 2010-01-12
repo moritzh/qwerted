@@ -5,18 +5,9 @@
 	<CheckBoxPreference android:key="keyboard.vibrate"
 		android:title="Vibrate on Key"
 		android:summary="Makes your device vibrate every time you touch a button" />
-		<PreferenceScreen android:title="Dictionary Settings" android:summary="Manage and download dictionaries">
-		<CheckBoxPreference android:key="dict.user.enabled"
-			android:title="User Dictionary"
-			android:summary="Disable the user dictionary. New Words won't get saved!" android:editable="false"/>
-		</PreferenceScreen>
+	
 	<PreferenceScreen android:title="Layout Settings" android:summary="Change the look of iType">
-		<CheckBoxPreference android:key="view.button.round"
-			android:title="@string/pref.view.rounded_buttons"
-			android:summary="@string/pref.view.rounded_buttons_summary" />
-		<CheckBoxPreference android:key="view.button.border"
-			android:title="@string/pref.view.border" android:summary="@string/pref.view.border_summary" />
-				
+		
 		<EditTextPreference android:numeric="decimal"
 			android:maxLength="2" android:key="view.button.gap" android:title="@string/pref.view.gap"
 			android:summary="@string/pref.view.gap_summary" />
