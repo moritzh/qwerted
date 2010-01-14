@@ -31,8 +31,6 @@ public class Keyboard implements
 	public final static int NORMAL = 0;
 	private static final int PREDICTION_LIMIT = 10;
 
-	// one keyboardview to rule them all.
-	private KeyboardView mKeyboardView;
 
 	// the maximums of rows and columns, needed to calculate button width and
 	// height.
@@ -89,7 +87,6 @@ public class Keyboard implements
 		}
 
 		// some bootstrapping.
-		mKeyboardView = new KeyboardView(this, mContext);
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mPreferences.registerOnSharedPreferenceChangeListener(this);
 		mButtons = KeyboardXMLParser.loadKeyboardFromXml(this, s);
@@ -99,8 +96,6 @@ public class Keyboard implements
 		this.createCharTables();
 		getPreferences();
 		word = "";
-
-		mKeyboardView.show();
 
 	}
 
@@ -122,23 +117,17 @@ public class Keyboard implements
 					mInputMethodService.getCurrentInputConnection()
 							.deleteSurroundingText(1, 0);
 				if (mPredictionEnabled) {
-					if (mAdvanceLastPrediction == 1) {
-						mAdvanceLastPrediction = -1;
-						mDictionaryItem = null;
-						updatePredictions();
-					} else if (mDictionaryItem != null) {
+					if ( word.length() > 1 && mDictionaryItem != null){
 						mDictionaryItem = mDictionaryItem.getParent();
-						
+						word = mDictionaryItem.fullWord;
 						updatePredictions();
-					}
-					if ( word.length()>1)
-						word = word.substring(0, word.length()-2);
-					else
+					} else if ( word.length() == 1 ){
+						mDictionaryItem = null;
 						word = "";
-					mAdvanceLastPrediction -= 1;
+						updatePredictions();
+					}   
 				}
-				this.mKeyboardView.drawButtons();
-
+				this.mInputMethodService.dispatchRedraw();
 				break;
 			case (02):
 				if (KeyboardButton.state == Keyboard.SHIFT)
@@ -147,11 +136,14 @@ public class Keyboard implements
 					KeyboardButton.state = Keyboard.SHIFT;
 				unpunchButtons();
 				updatePredictions();
-				this.mKeyboardView.drawButtons();
+				this.mInputMethodService.dispatchRedraw();
 
 				break;
 			case (03):
 				this.mInputMethodService.switchSym();
+				break;
+			case (04):
+				this.mInputMethodService.getCurrentInputConnection().performEditorAction(EditorInfo.IME_ACTION_GO);
 				break;
 			case (05):
 				if (mPredictionEnabled) {
@@ -179,8 +171,7 @@ public class Keyboard implements
 				word = "";
 
 				updatePredictions();
-				this.mKeyboardView.drawButtons();
-
+				this.mInputMethodService.dispatchRedraw();
 			}
 		} else {
 			text += c;
@@ -210,8 +201,7 @@ public class Keyboard implements
 			if (KeyboardButton.state != Keyboard.NORMAL) {
 				KeyboardButton.state = Keyboard.NORMAL;
 			}
-			this.mKeyboardView.drawButtons();
-
+			this.mInputMethodService.dispatchRedraw();
 		}
 		if (mInputMethodService.getCurrentInputStarted() && text.length() > 0)
 			mInputMethodService.getCurrentInputConnection().commitText(text, 1);
@@ -346,12 +336,7 @@ public class Keyboard implements
 
 	public void onStartInputView(EditorInfo info, boolean restarting) {
 		mDictionaryItem = null;
-		mKeyboardView.show();
 		updatePredictions();
-	}
-
-	public View getKeyboard() {
-		return mKeyboardView;
 	}
 
 	public Context getContext() {

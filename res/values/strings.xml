@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
    
-    <string name="app_name">iType</string>
+    <string name="app_name">qwerted</string>
 
 	<string name="checkbox">ckb</string>
 	<string name="pref.itype_preferences">iType Preferences</string>

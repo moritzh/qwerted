@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 
 /**
  * basically, the button is some kind of information-holding entity. it is
@@ -354,6 +355,7 @@ public class KeyboardButton {
 	 *            the new height-
 	 */
 	public static void onUpdateCanvasSize(int x, int y) {
+		Log.d("UPDATE","New Size: " + x + " " + y);
 		KeyboardButton.screenX = x;
 		KeyboardButton.screenY = y;
 		KeyboardButton.baseButtonHeight = 0;
@@ -570,7 +572,7 @@ public class KeyboardButton {
 
 	public static void setButtonGap(int gap2) {
 		// TODO Auto-generated method stub
-		KeyboardButton.gap = 8;
+		KeyboardButton.gap = gap2;
 		KeyboardButton.baseButtonHeight = 0;
 		KeyboardButton.baseButtonWidth = 0;
 
