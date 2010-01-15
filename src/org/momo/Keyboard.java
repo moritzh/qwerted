@@ -366,7 +366,7 @@ public class Keyboard implements
 	 * keyboard.prediction : if to predict.
 	 */
 	private void getPreferences() {
-		String gap = mPreferences.getString("view.button.gap", "2");
+		String gap = mPreferences.getString("view.button.gap", "4");
 		try {
 			int gapI = Integer.parseInt(gap);
 			KeyboardButton.setButtonGap(gapI);
@@ -376,7 +376,7 @@ public class Keyboard implements
 		}
 
 		boolean predict = mPreferences.getBoolean("keyboard.predict", true);
-		boolean vibrate = mPreferences.getBoolean("keyboard.vibrate", true);
+		boolean vibrate = mPreferences.getBoolean("keyboard.vibrate", false);
 		this.mVibrateOnKey = vibrate;
 		this.mPredictionEnabled = predict;
 	}
