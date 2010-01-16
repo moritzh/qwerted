@@ -67,27 +67,38 @@ public class KeyboardView extends LinearLayout implements
 	public static Paint mPreviewBackgroundPaint;
 
 	/**
-	 * constructor
+	 * constructor. bla.
 	 * 
 	 * @param kbd
 	 */
 	public KeyboardView(Keyboard k, Context c) {
 		super(c);
-		mKeyboard = k;
-		mHitRectangles = new HashMap<KeyboardButton, Rect>();
+		mHandler = new KeyboardViewMessageHandler(this);
+
+		setKeyboard(k);
 		// initialize to take up 30% of the screen.
 		mSurfaceView = new SurfaceView(c);
 		// the message handler
-		mHandler = new KeyboardViewMessageHandler(this);
 		// pull up the layout, the preview and the super small keyboard.
 		initLayout();
-
 		initPreview();
 		initExtraKeyboard();
-		oldtime = System.currentTimeMillis();
-		// start thread.
 	}
 
+	/**
+	 * it's up the readers imagination to find out what the purpose of this method is.
+	 * @param k the Keyboard.
+	 */
+	public void setKeyboard(Keyboard k){
+		mKeyboard = k;
+		mHitRectangles = new HashMap<KeyboardButton, Rect>();
+		mHandler.reset();
+		lastHitButton = null;
+		KeyboardButton.resetMeasuredSizes();
+
+	}
+	
+	
 	/**
 	 * sets up the initial layout and all according parameters.
 	 */
@@ -96,23 +107,24 @@ public class KeyboardView extends LinearLayout implements
         Display d = w.getDefaultDisplay(); 
         int width = d.getWidth(); 
         int height = d.getHeight(); 
+        Log.d("W", "Width:" + width + "  Height: "+ height);
         int designatedHeight;
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         	designatedHeight = Math.round(height*0.7f);
         else
         	designatedHeight = Math.round(height*0.5f);
 
-		Log.d("Heigt", "Should be " + designatedHeight);
-		LayoutParams foo = new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT, designatedHeight);
-		foo.gravity = Gravity.BOTTOM;
+        this.setPadding(0,0,0,0);
+		LayoutParams foo = new LayoutParams(width, designatedHeight);
+		foo.gravity = Gravity.BOTTOM | Gravity.LEFT;
+		foo.leftMargin = 0;
+		foo.bottomMargin = 0;
 		mButtonBackground = getContext().getResources().getDrawable(R.drawable.bg);
 		mAccentBackground = getContext().getResources().getDrawable(R.drawable.bg);
 
 		this.addView(mSurfaceView, foo);
 		KeyboardButton.onUpdateCanvasSize(width, designatedHeight);
 		this.forceLayout();
-		// this.setDrawingCacheEnabled(true);
-		// this.setDrawingCacheQuality(DRAWING_CACHE_QUALITY_HIGH);
 		mTypeface = Typeface.createFromAsset(this.getContext().getAssets(),
 				"arial.ttf");
 		this.setOnTouchListener(this);
@@ -145,7 +157,6 @@ public class KeyboardView extends LinearLayout implements
 	}
 
 	public void show() {
-		KeyboardButton.resetMeasuredSizes();
 		pullUpCanvas();
 
 	}
@@ -189,6 +200,8 @@ public class KeyboardView extends LinearLayout implements
 	 * let the message handler do the dirtwork.
 	 */
 	public boolean onTouch(View v, MotionEvent event) {
+		if ( this.mHitRectangles.size()==0)
+			this.drawButtons();
 		float tY = event.getY()<0  ?  -1.0f * event.getY()+this.getInnerHeight() : this.getInnerHeight()-event.getY();
 
 		if ( this.mExtraKeyboard.isShowing() && mExtraKeyboardRect.contains((int)event.getX(),(int) tY)){
@@ -264,7 +277,7 @@ public class KeyboardView extends LinearLayout implements
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		KeyboardButton.onUpdateCanvasSize(w, h);
+		//KeyboardButton.onUpdateCanvasSize(w, h);
 	}
 
 	public KeyboardButton findButtonForPoint(int x, int y) {
@@ -291,7 +304,6 @@ public class KeyboardView extends LinearLayout implements
 	 * @param y
 	 */
 	public void onButtonPressed(final KeyboardButton f) {
-		KeyboardButton.timeTaken = 0;
 
 		if (f != null) {
 			if ( f.mPunched != 0)
@@ -300,8 +312,7 @@ public class KeyboardView extends LinearLayout implements
 				mKeyboard.handleInput(f.sendKey());
 
 		}
-		Log.d("NEGTIME", "Time taken for negotiations:"
-				+ KeyboardButton.timeTaken);
+
 	}
 
 	/**
@@ -353,7 +364,6 @@ public class KeyboardView extends LinearLayout implements
 		AlphaAnimation bar = new AlphaAnimation(0.0f,255f);
 		bar.setDuration(400);
 		Rect f = mExtraKeyboardView.getDrawRect();
-		Log.d("DA", f.toString());
 		// update to match the location of b.
 		int wX  = Math.max(b.currentRect.centerX(), 60);
 		wX = Math.min(wX, this.getInnerWidth()-60);
@@ -583,7 +593,6 @@ class ExtraKeyboard extends View {
 
 	public boolean onTouch(MotionEvent event) {
 		// TODO Auto-generated method stub
-		Log.d("T", "Touch");
 		// puh. 
 		// translate event.
 		float tY = event.getY()<0  ?  -1.0f * event.getY()+mKeyboardView.getInnerHeight() : mKeyboardView.getInnerHeight()-event.getY();
