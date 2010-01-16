@@ -104,9 +104,10 @@ public class KeyboardButton {
 	static Paint highlightPaint;
 	public char currentSendChar;
 	private Keyboard keyboard;
+	private static GradientDrawable mHighlightBackground;
 
 	// TODO remove
-	public static GradientDrawable mGradientBackground;
+	public static GradientDrawable mDefaultBackground;
 	
 	
 	/**
@@ -165,9 +166,10 @@ public class KeyboardButton {
 		highlightPaint = new Paint();
 		highlightPaint.setColor(this.keyboard.getContext().getResources()
 				.getColor(R.color.key_highlight));
-		mGradientBackground = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,new int[]{Color.LTGRAY,Color.WHITE});
-		mGradientBackground.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+		mHighlightBackground = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{Color.LTGRAY,Color.RED});
 		
+		mDefaultBackground = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,new int[]{Color.LTGRAY,Color.WHITE});
+		mDefaultBackground.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
 	}
 
@@ -203,13 +205,13 @@ public class KeyboardButton {
 		if (this.highlight) {
 			ButtonRenderer.drawButton(c, sC, this
 					.getActiveSet().render, currentRect,
-					KeyboardButton.borderPaint, KeyboardButton.highlightPaint,
+					KeyboardButton.borderPaint, KeyboardButton.mHighlightBackground,
 					KeyboardButton.textPaint);
 
 		} else {
 			ButtonRenderer.drawButton(c, sC, this
 					.getActiveSet().render, currentRect,
-					KeyboardButton.borderPaint, KeyboardButton.fillPaint,
+					KeyboardButton.borderPaint, KeyboardButton.mDefaultBackground,
 					KeyboardButton.textPaint);
 
 		}

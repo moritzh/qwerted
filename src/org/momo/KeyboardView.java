@@ -24,6 +24,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -139,6 +140,7 @@ public class KeyboardView extends LinearLayout implements
 		this.mExtraKeyboardView = new ExtraKeyboard(this);
 		this.mExtraKeyboard = new PopupWindow(this.mExtraKeyboardView);		this.mExtraKeyboard.setTouchable(true);
 		this.mExtraKeyboardRect = new Rect();
+		mExtraKeyboard.setAnimationStyle(android.R.style.Animation_Toast);
 
 	}
 
@@ -348,6 +350,8 @@ public class KeyboardView extends LinearLayout implements
 			mExtraKeyboard.showAtLocation(this, Gravity.LEFT | Gravity.BOTTOM,
 					10, 10);
 		mExtraKeyboardView.buildKeyboardFor(b);
+		AlphaAnimation bar = new AlphaAnimation(0.0f,255f);
+		bar.setDuration(400);
 		Rect f = mExtraKeyboardView.getDrawRect();
 		Log.d("DA", f.toString());
 		// update to match the location of b.
@@ -402,9 +406,10 @@ public class KeyboardView extends LinearLayout implements
 
 class Preview extends View {
 	private KeyboardButton mKeyboardButton;
-
+	private Drawable mDrawable;
 	public Preview(KeyboardView k) {
 		super(k.getContext());
+		mDrawable = this.getResources().getDrawable(android.R.drawable.screen_background_dark);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -415,11 +420,12 @@ class Preview extends View {
 	@Override
 	public void onDraw(Canvas canvas) {
 		Rect r = new Rect();
+		
 		this.getDrawingRect(r);
 		ButtonRenderer.drawButton(canvas, mKeyboardButton.getActiveSet().show,
 				mKeyboardButton.getActiveSet().render, r,
 				KeyboardButton.borderPaint,
-				KeyboardView.mPreviewBackgroundPaint, KeyboardButton.textPaint);
+			mDrawable, KeyboardButton.textPaint);
 	}
 }
 
@@ -488,26 +494,26 @@ class ExtraKeyboard extends View {
 		if ( workingSet.extra.length > 0)
 		ButtonRenderer
 				.drawButton(c, workingSet.extra[0], null, mCharKeys[0],
-						KeyboardButton.borderPaint,mKeyPaint,
+						KeyboardButton.borderPaint,KeyboardButton.mDefaultBackground,
 						KeyboardButton.textPaint);
 		
 		if ( workingSet.extra.length > 1)
 			ButtonRenderer
 			.drawButton(c, workingSet.extra[1], null, mCharKeys[1],
-					KeyboardButton.borderPaint,mKeyPaint,
+					KeyboardButton.borderPaint,KeyboardButton.mDefaultBackground,
 					KeyboardButton.textPaint);
 		if ( workingSet.extra.length > 2)
 			ButtonRenderer
 			.drawButton(c, workingSet.extra[2], null, mCharKeys[2],
-					KeyboardButton.borderPaint,mKeyPaint,
+					KeyboardButton.borderPaint,KeyboardButton.mDefaultBackground,
 					KeyboardButton.textPaint);
 		if ( workingSet.extra.length > 3)
 			ButtonRenderer
 			.drawButton(c, workingSet.extra[3], null, mCharKeys[3],
-					KeyboardButton.borderPaint,mKeyPaint,
+					KeyboardButton.borderPaint,KeyboardButton.mDefaultBackground,
 					KeyboardButton.textPaint);
 		ButtonRenderer.drawButton(c, mShiftKey, null, mShift,
-				KeyboardButton.borderPaint,mShiftPaint,
+				KeyboardButton.borderPaint,KeyboardButton.mDefaultBackground,
 				KeyboardButton.textPaint);
 
 	}

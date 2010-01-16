@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="org.momo"
-	android:versionCode="1" android:versionName="1.0"
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	  <supports-screens
-          android:largeScreens="true"
-          android:normalScreens="true"
-          android:smallScreens="true"
-           
-          android:anyDensity="true" />
-	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:permission="android.permission.BIND_INPUT_METHOD">
+<manifest package="org.momo" android:versionCode="1"
+	android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<supports-screens android:largeScreens="true"
+		android:normalScreens="true" android:smallScreens="true"
 
-		<service android:name="IType">
+		android:anyDensity="true" />
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+	android:permission="android.permission.BIND_INPUT_METHOD">
+
+		<service android:name="IType" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.view.InputMethod"></action>
 			</intent-filter>
 			<meta-data android:name="android.view.im" android:resource="@xml/method" />
- 
+
 
 		</service>
 
 
-		<activity android:name=".ITypePreferences" android:label="@string/app_name">
+		<activity android:label="@string/app_name" android:name="ITypePreferences">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
-	</application>
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4"/>
-	<uses-permission android:name="android.permission.VIBRATE" />
+		<activity android:label="foobar" android:name="DictionaryManager" android:permission="android.permission.BIND_INPUT_METHOD">
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
 
+				<action android:name="org.momo.DICTIONARY_SETUP" />
+			</intent-filter>
+		</activity>
+
+	</application>
+	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.ACCESS_CHECKIN_PROPERTIES" />
 </manifest>

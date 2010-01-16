@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
    
-    <string name="app_name">iType</string>
+    <string name="app_name">qwerted</string>
 
 	<string name="checkbox">ckb</string>
-	<string name="pref.itype_preferences">iType Preferences</string>
+	<string name="pref.itype_preferences">qwerted Preferences</string>
 	<string name="pref.view.rounded_buttons">Rounded Buttons</string>
 	<string name="pref.view.rounded_buttons_summary">Check if you want the buttons to be rounded.</string>
 	<string name="pref.view.gap">Button Spacing</string>
@@ -19,6 +19,5 @@
 	<color name="accent.background">#008ccd</color>
 	<color name="shift.background">#cd7900</color>
 		<color name="preview.background">#cd7900</color>
-	
-
+ 
 </resources>

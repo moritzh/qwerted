@@ -6,8 +6,11 @@
 		android:title="Vibrate on Key"
 		android:summary="Makes your device vibrate every time you touch a button" />
 	
+	<Preference android:title="Dictionary Setup" >
+	<intent android:action="org.momo.DICTIONARY_SETUP" />
+	</Preference>
 	<PreferenceScreen android:title="Layout Settings" android:summary="Change the look of iType">
-		
+	
 		<EditTextPreference android:numeric="decimal"
 			android:maxLength="1" android:key="view.button.gap" android:title="@string/pref.view.gap"
 			android:summary="@string/pref.view.gap_summary" android:defaultValue="4" />
