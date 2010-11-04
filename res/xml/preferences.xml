@@ -1,18 +1,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 	android:title="@string/pref.itype_preferences">
-	<CheckBoxPreference android:key="keyboard.predict" android:defaultValue="true" 
-		android:title="Enable Prediction" android:summary="You could have saved 2.99$ if you turn this off." />
-	<CheckBoxPreference android:key="keyboard.vibrate" android:defaultValue="false"
-		android:title="Vibrate on Key"
-		android:summary="Makes your device vibrate every time you touch a button" />
-	
-	<Preference android:title="Dictionary Setup" >
-	<intent android:action="org.momo.DICTIONARY_SETUP" />
+	<CheckBoxPreference android:key="keyboard.predict"
+		android:defaultValue="true" android:title="@string/pref.dict.prediction"
+		android:summary="@string/pref.dict.prediction_summary" />
+	<CheckBoxPreference android:key="keyboard.vibrate"
+		android:defaultValue="false" android:title="@string/pref.dict.vibrate"
+		android:summary="@string/pref.dict.vibrate_summary" />
+
+	<Preference android:title="@string/pref.dict.dict"
+		android:summary="@string/pref.dict.dict_summary" android:id="@+id/dict.launcher"
+		android:name="dict.launcher">
 	</Preference>
-	<PreferenceScreen android:title="Layout Settings" android:summary="Change the look of iType">
-	
-		<EditTextPreference android:numeric="decimal"
-			android:maxLength="1" android:key="view.button.gap" android:title="@string/pref.view.gap"
-			android:summary="@string/pref.view.gap_summary" android:defaultValue="4" />
-	</PreferenceScreen>
+
+	<EditTextPreference android:numeric="decimal"
+		android:maxLength="1" android:key="view.button.gap" android:title="@string/pref.view.gap"
+		android:summary="@string/pref.view.gap_summary" android:defaultValue="4" />
 </PreferenceScreen>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="pref.view.rounded_buttons">Runde Tasten</string>
+	<string name="pref.view.rounded_buttons_summary">Auswählen, um die runde Tasten zu anzuzeigen.
+	</string>
+	<string name="pref.view.gap">Tastenabstand</string>
+	<string name="pref.view.gap_summary">Wieviel Abstand zwischen Tasten gelassen werden
+		soll.</string>
+	<string name="pref.view.border">Rahmen</string>
+	<string name="pref.view.border_summary">Ob ein Rahmen um die Tasten gezeichnet werden soll.
+	</string>
+</resources>

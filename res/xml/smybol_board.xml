@@ -1,0 +1,160 @@
+<Keyboard xmlns:momo="foo">
+<Row>
+<Key
+	key="1"
+	key_shift="~"
+/>
+<Key
+	key="2"
+	key_shift="`"
+/>
+<Key
+	key="3"
+	key_shift="|"
+/>
+<Key
+	key="4"
+	key_shift="*"
+/> 
+<Key
+	key="5"
+	key_shift="√"
+/> 
+<Key
+	key="6"
+	key_shift="⊓"
+/> 
+<Key
+	key="7"
+	key_shift="÷"
+/>
+<Key
+	key="8"
+	key_shift="×"
+/>
+<Key
+	key="9"
+	key_shift="{"
+/>
+<Key
+	key="0"
+	key_shift="}"
+/>
+</Row>
+<Row>
+
+<Key
+	key="\@"
+	key_shift="¥"
+/>
+<Key
+	key="\#"
+	key_shift="£"
+/>
+<Key
+	key="$"
+	key_shift="¢"
+/>
+<Key
+	key="%"
+	key_shift="€"
+/>
+<Key
+	key="&amp;"
+	key_shift="°"
+	/>
+<Key
+	key="*"
+	key_shift="^"
+/>
+<Key
+	key="-"
+	key_shift="_"
+/>
+<Key
+	key="+"
+	key_shift="="
+/>
+<Key
+	key="("
+	key_shift="["
+/>
+<Key
+	key=")"
+	key_shift="]"
+/>
+</Row>
+<Row>
+<SpecialKey
+	key="SHIFT"
+	span="1.5"
+	key_shift="A"
+/>
+<Key
+	key="!"
+	key_shift="™"
+/>
+<Key
+	key="&quot;"
+	key_shift="®"
+/>
+<Key
+	key="'"
+	key_shift="©"
+/>
+<Key
+	key=":"
+	key_shift="¶"
+/>
+<Key
+	key=";"
+	key_shift="\\"
+/>
+<Key
+	key="/"
+	key_shift="&lt;"
+/>
+<Key
+	key="\?"
+	key_shift="&gt;"
+/>
+<SpecialKey
+	key="BACK"
+	span="1.5"
+	key_shift="B"
+/>
+
+
+</Row>
+<Row>
+
+<SpecialKey
+	key="SYM"
+	span="2.0"
+	key_shift="B"
+/>
+<Key
+	key=","
+	span="1.5"
+	key_shift="„"
+/>
+<SpecialKey
+	key="SPACE"
+	span="3.0"
+	key_shift="A"
+/>
+<Key
+	key="."
+	span="1.5"
+		key_shift="…" 
+/>
+<SpecialKey
+	key="GO"
+	span="2.0"
+	
+	key_shift="A"
+/>
+
+
+</Row>
+</Keyboard>

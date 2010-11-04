@@ -1,74 +1,26 @@
 <Keyboard xmlns:momo="foo">
-<Row>
-<Key
-	key="1"
-	key_shift="Q"
-/>
-<Key
-	key="2"
-	key_shift="W"
-/>
-<Key
-	key="3"
-	key_shift="E"
-/>
-<Key
-	key="-"
-	key_shift="R"
-/> 
-</Row>
-<Row>
-<Key
-	key="4"
-	key_shift="T"
-/>
-<Key
-	key="5"
-	key_shift="Y"
-/>
-<Key
-	key="6"
-	key_shift="U"
-/>
-<Key
-	key="."
-	key_shift="I"
-/>
-</Row>
-<Row>
-<Key
-	key="7"
-	key_shift="O"
-/>
-<Key
-	key="8"
-	key_shift="P"
-/>
-<Key
-	key="9"
-	key_shift="A"
-/>
-<SpecialKey
-	key="BACK"
-	key_shift="S"
-/>
-</Row>
-<Row>
-<Key
-	key="*"
-	key_shift="D"
-/>
-<Key
-	key="0"
-	key_shift="F"
-/>
-<SpecialKey
-	key="SPACE"
-	key_shift="G"
-	/>
-<SpecialKey
-	key="GO"
-	key_shift="H"
-/>
-</Row>
+	<Row>
+		<Key key="1" key_shift="Q" />
+		<Key key="2" key_shift="W" />
+		<Key key="3" key_shift="E" />
+		<Key key="-" key_shift="R" />
+	</Row>
+	<Row>
+		<Key key="4" key_shift="T" />
+		<Key key="5" key_shift="Y" />
+		<Key key="6" key_shift="U" />
+		<Key key="." key_shift="I" />
+	</Row>
+	<Row>
+		<Key key="7" key_shift="O" />
+		<Key key="8" key_shift="P" />
+		<Key key="9" key_shift="A" />
+		<SpecialKey key="BACK" key_shift="S" />
+	</Row>
+	<Row>
+		<Key key="*" key_shift="D" />
+		<Key key="0" key_shift="F" />
+		<SpecialKey key="SPACE" key_shift="G" />
+		<SpecialKey key="GO" key_shift="H" />
+	</Row>
 </Keyboard>

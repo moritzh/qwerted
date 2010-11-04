@@ -1,161 +1,50 @@
 <Keyboard xmlns:momo="foo">
-<Row>
-<Key
-	key="q"
-	key_shift="Q"
-	key_num="1"
-	key_sim="1"	
-/>
-<Key
-	key="w"
-	
-	key_shift="W"
-/>
-<Key
-	key="e é è ê ë"
-	key_shift="E É È Ê Ë"
-/>
-<Key
-	key="r"
-	key_shift="R"
-/> 
-<Key
-	key="t"
-	key_shift="T"
-/>
-<Key
-	key="y"
-	key_shift="Y"
-/>
-<Key
-	key="u ü ú ù û"
-	key_shift="U Ü Ú Ù Û"
-/>
-<Key
-	key="i í ì î ï"
-	key_shift="I Î Í Ì Ï"
-/>
-<Key
-	key="o ö ó ò ô"
-	key_shift="O"
-/>
-<Key
-	key="p"
-	key_shift="P"
-/>
-</Row>
-<Row>
-<Spacer 
-	amount="0.5"/>
-<Key
-	key="a ä á à â"
-	key_shift="A Ä Á À Â"
-/>
-<Key
-	key="s ß"
-	key_shift="S"
-/>
-<Key
-	key="d"
-	key_shift="D"
-/>
-<Key
-	key="f"
-	key_shift="F"
-/>
-<Key
-	key="g"
-	key_shift="G"
-	/>
-<Key
-	key="h"
-	key_shift="H"
-/>
-<Key
-	key="j"
-	key_shift="J"
-/>
-<Key
-	key="k"
-	key_shift="K"
-/>
-<Key
-	key="l"
-	key_shift="L"
-/>
+	<Row>
+		<Key key="q" key_shift="Q" key_num="1" key_sim="1" />
+		<Key key="w" key_shift="W" />
+		<Key key="e é è ê ë" key_shift="E É È Ê Ë" />
+		<Key key="r" key_shift="R" />
+		<Key key="t" key_shift="T" />
+		<Key key="y" key_shift="Y" />
+		<Key key="u ü ú ù û" key_shift="U Ü Ú Ù Û" />
+		<Key key="i í ì î ï" key_shift="I Î Í Ì Ï" />
+		<Key key="o ö ó ò ô" key_shift="O" />
+		<Key key="p" key_shift="P" />
+	</Row>
+	<Row>
+		<Spacer amount="0.5" />
+		<Key key="a ä á à â" key_shift="A Ä Á À Â" />
+		<Key key="s ß" key_shift="S" />
+		<Key key="d" key_shift="D" />
+		<Key key="f" key_shift="F" />
+		<Key key="g" key_shift="G" />
+		<Key key="h" key_shift="H" />
+		<Key key="j" key_shift="J" />
+		<Key key="k" key_shift="K" />
+		<Key key="l" key_shift="L" />
 
-</Row>
-<Row>
-<SpecialKey
-	key="SHIFT"
-	span="1.5"
-	key_shift="A"
-/>
-<Key
-	key="z"
-	key_shift="Z"
-/>
-<Key
-	key="x"
-	key_shift="X"
-/>
-<Key
-	key="c ç"
-	key_shift="C Ç"
-/>
-<Key
-	key="v"
-	key_shift="V"
-/>
-<Key
-	key="b"
-	key_shift="B"
-/>
-<Key
-	key="n"
-	key_shift="N"
-/>
-<Key
-	key="m"
-	key_shift="M"
-/>
-<SpecialKey
-	key="BACK"
-	span="1.5"
-	key_shift="B"
-/>
+	</Row>
+	<Row>
+		<SpecialKey key="SHIFT" span="1.5" key_shift="A" />
+		<Key key="z" key_shift="Z" />
+		<Key key="x" key_shift="X" />
+		<Key key="c ç" key_shift="C Ç" />
+		<Key key="v" key_shift="V" />
+		<Key key="b" key_shift="B" />
+		<Key key="n" key_shift="N" />
+		<Key key="m" key_shift="M" />
+		<SpecialKey key="BACK" span="1.5" key_shift="B" />
 
 
-</Row>
-<Row>
+	</Row>
+	<Row>
 
-<SpecialKey
-	key="SYM"
-	span="2.0"
-	key_shift="B"
-/>
-<Key
-	key=","
-	span="1.5"
-	key_shift=","
-/>
-<SpecialKey
-	key="SPACE"
-	span="3.0"
-	key_shift="A"
-/>
-<Key
-	key="."
-	span="1.5"
-		key_shift="."
-/>
-<SpecialKey
-	key="GO"
-	span="2.0"
-	
-	key_shift="A"
-/>
+		<SpecialKey key="SYM" span="2.0" key_shift="B" />
+		<Key key="," span="1.5" key_shift="," />
+		<SpecialKey key="SPACE" span="3.0" key_shift="A" />
+		<Key key="." span="1.5" key_shift="." />
+		<SpecialKey key="GO" span="2.0" key_shift="A" />
 
 
-</Row>
+	</Row>
 </Keyboard>
